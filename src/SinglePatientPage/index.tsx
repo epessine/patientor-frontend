@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
+import { updatePatient } from "../state/reducer";
 
 const SinglePatientPage = () => {
   const [{ patients }, dispatch] = useStateValue();
@@ -15,7 +16,7 @@ const SinglePatientPage = () => {
     const { data: res } = await axios.get<Patient>(
       `${apiBaseUrl}/patients/${id}`
     );
-    dispatch({ type: "UPDATE_PATIENT", payload: res });
+    dispatch(updatePatient(res));
   };
   if (!patients[id] || !patients[id].ssn) void fetchPatient();
   const patient = patients[id];
