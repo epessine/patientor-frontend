@@ -6,6 +6,8 @@ import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
 import { updatePatient } from "../state/reducer";
+import EntryDetails from './EntryDetails';
+import { Card } from 'semantic-ui-react';
 
 const SinglePatientPage = () => {
   const [{ patients }, dispatch] = useStateValue();
@@ -44,22 +46,16 @@ const SinglePatientPage = () => {
         <p><b>ssn: {patient.ssn}</b></p>
         <p><b>occupation: {patient.occupation}</b></p>
         <h3>entries</h3>
-        {patient.entries.map(entry => (
-          <div key={entry.id}>
-            <p>{entry.date} <i>{entry.description}</i></p>
-            <ul>
-              {entry.diagnosisCodes?.map(code => (
-                <li key={code}>
-                  {code}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <Card.Group>
+          {patient.entries.map(entry => (
+            <EntryDetails key={entry.id} entry={entry} />
+          ))}
+        </Card.Group>
+        
       </div>
     );
   }
-  return ( <div>patient not found</div> );
+  return (<div>patient not found</div>);
 };
 
 export default SinglePatientPage;
